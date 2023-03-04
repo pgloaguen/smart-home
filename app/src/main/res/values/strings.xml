@@ -3,4 +3,5 @@
 
     <!-- Home page -->
     <string name="home_page_title">Devices</string>
+    <string name="action_retry">Retry</string>
 </resources>
