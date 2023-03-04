@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomePageFragment">
+
+    <fragment
+        android:id="@+id/HomePageFragment"
+        android:name="me.pgloaguen.smarthome.scene.homepage.HomePageFragment"
+        android:label="@string/home_page_title"
+        tools:layout="@layout/home_page_fragment">
+    </fragment>
+</navigation>
