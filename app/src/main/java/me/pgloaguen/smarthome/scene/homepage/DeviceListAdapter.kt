@@ -51,6 +51,7 @@ class DeviceListAdapter : RecyclerView.Adapter<DeviceListAdapter.DeviceViewHolde
                 }
                 is Device.RollerShutter -> {
                     binding.deviceValue.text = device.position.toString()
+                    binding.deviceMode.text = null
                 }
             }
         }

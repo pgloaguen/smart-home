@@ -4,4 +4,8 @@
     <!-- Home page -->
     <string name="home_page_title">Devices</string>
     <string name="action_retry">Retry</string>
+    <string name="action_filter_roller_shutter">Roller shutter</string>
+    <string name="action_filter_heater">Heater</string>
+    <string name="action_filter_light">Light</string>
+    <string name="action_filter_all">All</string>
 </resources>

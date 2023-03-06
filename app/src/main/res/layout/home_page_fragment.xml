@@ -7,18 +7,51 @@
     tools:context=".scene.homepage.HomePageFragment">
 
     <!-- Content view -->
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggle_device_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <Button
+                android:id="@+id/button_light"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_filter_light" />
+
+            <Button
+                android:id="@+id/button_heater"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_filter_heater" />
+
+            <Button
+                android:id="@+id/button_rollershutter"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_filter_roller_shutter" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/devices_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toggle_device_type" />
 
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Loading view -->
     <ProgressBar
@@ -34,10 +67,10 @@
         android:id="@+id/error_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:padding="32dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:padding="32dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/error_message"

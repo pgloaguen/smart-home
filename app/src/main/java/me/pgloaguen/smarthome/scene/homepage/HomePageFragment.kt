@@ -37,6 +37,10 @@ class HomePageFragment : Fragment() {
     ): View {
         _binding = HomePageFragmentBinding.inflate(inflater, container, false)
         binding.devicesList.adapter = deviceListAdapter
+        binding.retryButton.setOnClickListener { viewModel.retry() }
+        binding.buttonLight.setOnClickListener { viewModel.toggleLightFilter() }
+        binding.buttonHeater.setOnClickListener { viewModel.toggleHeaterFilter() }
+        binding.buttonRollershutter.setOnClickListener { viewModel.toggleRollerShutterFilter() }
         return binding.root
     }
 
@@ -49,7 +53,16 @@ class HomePageFragment : Fragment() {
         binding.loadingView.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         binding.errorView.visibility = if (state.error != null) View.VISIBLE else View.GONE
         binding.errorMessage.text = state.error?.message
-        binding.retryButton.setOnClickListener { viewModel.retry() }
         deviceListAdapter.devices = state.devices
+        if (state.lightFilter) binding.toggleDeviceType.check(binding.buttonLight.id) else binding.toggleDeviceType.uncheck(
+            binding.buttonLight.id
+        )
+        if (state.heaterFilter) binding.toggleDeviceType.check(binding.buttonHeater.id) else binding.toggleDeviceType.uncheck(
+            binding.buttonHeater.id
+        )
+        if (state.rollerShutterFilter) binding.toggleDeviceType.check(binding.buttonRollershutter.id) else binding.toggleDeviceType.uncheck(
+            binding.buttonRollershutter.id
+        )
+
     }
 }
