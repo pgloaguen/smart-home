@@ -8,9 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlinx.coroutines.launch
 import me.pgloaguen.smarthome.databinding.HomePageFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomePageFragment : Fragment() {
 
@@ -21,6 +25,19 @@ class HomePageFragment : Fragment() {
     private val viewModel by viewModel<HomePageViewModel>()
 
     private val deviceListAdapter = DeviceListAdapter()
+
+    private val itemSwipe = ItemTouchHelper(
+        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: ViewHolder, target: ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                viewModel.deleteDeviceAtPosition(viewHolder.bindingAdapterPosition)
+            }
+        })
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +58,7 @@ class HomePageFragment : Fragment() {
         binding.buttonLight.setOnClickListener { viewModel.toggleLightFilter() }
         binding.buttonHeater.setOnClickListener { viewModel.toggleHeaterFilter() }
         binding.buttonRollershutter.setOnClickListener { viewModel.toggleRollerShutterFilter() }
+        itemSwipe.attachToRecyclerView(binding.devicesList)
         return binding.root
     }
 

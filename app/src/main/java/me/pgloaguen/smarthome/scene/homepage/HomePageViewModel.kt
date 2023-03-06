@@ -7,9 +7,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.pgloaguen.domain.model.Device
+import me.pgloaguen.domain.usecase.DeleteDevice
 import me.pgloaguen.domain.usecase.GetDevices
 
-class HomePageViewModel(private val getDevices: GetDevices) : ViewModel() {
+class HomePageViewModel(
+    private val getDevices: GetDevices,
+    private val deleteDevice: DeleteDevice
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomePageState())
     val uiState: StateFlow<HomePageState> = _uiState.asStateFlow()
@@ -23,12 +27,13 @@ class HomePageViewModel(private val getDevices: GetDevices) : ViewModel() {
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
         viewModelScope.launch {
             val devices = runCatching { getDevices() }
-            _uiState.value = _uiState.value.copy(isLoading = false)
             if (devices.isSuccess) {
                 allDevices = devices.getOrNull() ?: emptyList()
-                _uiState.value = _uiState.value.copy(devices = filterAllDeviceByType())
+                _uiState.value =
+                    _uiState.value.copy(devices = filterAllDeviceByType(), isLoading = false)
             } else {
-                _uiState.value = _uiState.value.copy(error = devices.exceptionOrNull())
+                _uiState.value =
+                    _uiState.value.copy(error = devices.exceptionOrNull(), isLoading = false)
             }
         }
     }
@@ -38,14 +43,14 @@ class HomePageViewModel(private val getDevices: GetDevices) : ViewModel() {
         heaterFilter: Boolean = uiState.value.heaterFilter,
         rollerShutterFilter: Boolean = uiState.value.rollerShutterFilter,
     ) = if ((!heaterFilter && !lightFilter && !rollerShutterFilter)) {
-            allDevices
-        } else {
-            allDevices.filter { device ->
-                (heaterFilter && device is Device.Heater) ||
-                        (lightFilter && device is Device.Light) ||
-                        (rollerShutterFilter && device is Device.RollerShutter)
-            }
+        allDevices
+    } else {
+        allDevices.filter { device ->
+            (heaterFilter && device is Device.Heater) ||
+                    (lightFilter && device is Device.Light) ||
+                    (rollerShutterFilter && device is Device.RollerShutter)
         }
+    }
 
     fun toggleLightFilter() {
         val lightFilter = !_uiState.value.lightFilter
@@ -71,8 +76,21 @@ class HomePageViewModel(private val getDevices: GetDevices) : ViewModel() {
         )
     }
 
+    fun deleteDeviceAtPosition(bindingAdapterPosition: Int) {
+        val deleteDeviceResult = runCatching {
+            val device = _uiState.value.devices[bindingAdapterPosition]
+            deleteDevice(device.id)
+        }
+
+        if (deleteDeviceResult.isSuccess) {
+            allDevices = deleteDeviceResult.getOrNull() ?: emptyList()
+            _uiState.value = _uiState.value.copy(devices = filterAllDeviceByType())
+        } else {
+            _uiState.value = _uiState.value.copy(error = deleteDeviceResult.exceptionOrNull())
+        }
+    }
+
     fun retry() {
         loadData()
     }
-
 }

@@ -1,11 +1,13 @@
 package me.pgloaguen.domain.repository
 
 import me.pgloaguen.domain.model.Device
+import me.pgloaguen.domain.model.DeviceId
 
 interface Repository {
     suspend fun fetchData()
 
-    suspend fun hasData(): Boolean
+    fun hasData(): Boolean
 
-    suspend fun getDevices(): List<Device>
+    fun getDevices(): List<Device>
+    fun deleteDevice(id: DeviceId): List<Device>
 }
