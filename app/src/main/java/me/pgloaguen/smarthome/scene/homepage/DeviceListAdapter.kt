@@ -24,6 +24,8 @@ class DeviceListAdapter : RecyclerView.Adapter<DeviceListAdapter.DeviceViewHolde
             field = value
         }
 
+    var onItemClickListener : (Device) -> Unit = {}
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
         val binding = ItemDeviceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DeviceViewHolder(binding)
@@ -33,6 +35,7 @@ class DeviceListAdapter : RecyclerView.Adapter<DeviceListAdapter.DeviceViewHolde
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         val device = devices[position]
+        holder.itemView.setOnClickListener { onItemClickListener(device) }
         holder.bind(device)
     }
 

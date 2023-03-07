@@ -10,5 +10,20 @@
         android:name="me.pgloaguen.smarthome.scene.homepage.HomePageFragment"
         android:label="@string/home_page_title"
         tools:layout="@layout/home_page_fragment">
+        <action
+            android:id="@+id/to_deviceSteeringFragment"
+            app:destination="@id/deviceSteeringFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceSteeringFragment"
+        android:name="me.pgloaguen.smarthome.scene.devicesteering.DeviceSteeringFragment"
+        tools:layout="@layout/device_steering_fragment"
+        android:label="{deviceName}">
+        <argument
+            android:name="deviceId"
+            app:argType="integer" />
+        <argument
+            android:name="deviceName"
+            app:argType="string" />
     </fragment>
 </navigation>

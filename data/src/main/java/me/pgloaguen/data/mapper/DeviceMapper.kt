@@ -38,7 +38,7 @@ class DeviceMapper {
         Device.Heater(
             item.id!!,
             item.deviceName!!,
-            item.temperature!!,
+            item.temperature!!.toFloat(),
             transformMode(item.mode),
         )
 

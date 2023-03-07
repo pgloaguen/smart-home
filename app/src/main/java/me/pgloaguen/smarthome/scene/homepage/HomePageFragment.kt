@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -54,6 +55,7 @@ class HomePageFragment : Fragment() {
     ): View {
         _binding = HomePageFragmentBinding.inflate(inflater, container, false)
         binding.devicesList.adapter = deviceListAdapter
+        deviceListAdapter.onItemClickListener = { device -> findNavController().navigate(HomePageFragmentDirections.toDeviceSteeringFragment(device.id, device.name)) }
         binding.retryButton.setOnClickListener { viewModel.retry() }
         binding.buttonLight.setOnClickListener { viewModel.toggleLightFilter() }
         binding.buttonHeater.setOnClickListener { viewModel.toggleHeaterFilter() }

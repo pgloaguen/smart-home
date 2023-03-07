@@ -8,4 +8,10 @@
     <string name="action_filter_heater">Heater</string>
     <string name="action_filter_light">Light</string>
     <string name="action_filter_all">All</string>
+
+    <!-- Device steering -->
+    <string name="device_steering_enable">Enable</string>
+    <string name="device_steering_light_value">Intensity</string>
+    <string name="device_steering_roller_shutter_value">Position</string>
+    <string name="device_steering_heater_value">Temperature</string>
 </resources>
